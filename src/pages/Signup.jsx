@@ -38,7 +38,8 @@ export default function Signup() {
       showToast('Account created successfully! Welcome to TaskFlow.')
       navigate('/dashboard', { replace: true })
     } catch (err) {
-      setError(formatAuthError(err.code || err.message))
+      console.error('Firebase Auth Signup Error:', err)
+      setError(formatAuthError(err))
     } finally {
       setLoading(false)
     }

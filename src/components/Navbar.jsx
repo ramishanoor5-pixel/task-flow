@@ -1,10 +1,10 @@
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useToast } from '../context/ToastContext'
-import { LogOut, CheckSquare, Sparkles, Database } from 'lucide-react'
+import { LogOut, CheckSquare } from 'lucide-react'
 
 export default function Navbar() {
-  const { currentUser, logout, isFirebaseConfigured } = useAuth()
+  const { currentUser, logout } = useAuth()
   const { showToast } = useToast()
   const navigate = useNavigate()
 
@@ -34,37 +34,23 @@ export default function Navbar() {
               <CheckSquare className="w-5 h-5" />
             </div>
             <div>
-              <div className="flex items-center gap-2">
-                <span className="font-bold text-lg tracking-tight text-white">TaskFlow</span>
-                <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full uppercase tracking-wider bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
-                  Cloud Firestore
-                </span>
-              </div>
-              <p className="text-xs text-slate-400 hidden sm:block">Full Auth & Real-Time CRUD</p>
+              <span className="font-bold text-lg tracking-tight text-white">TaskFlow</span>
             </div>
           </div>
 
-          {/* Right section: System Status & User Profile */}
-          <div className="flex items-center gap-4">
-            {/* Status indicator */}
-            <div className="hidden md:flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium bg-slate-900 border border-slate-800 text-slate-300">
-              <Database className="w-3.5 h-3.5 text-indigo-400" />
-              <span>{isFirebaseConfigured ? 'Firebase Online' : 'Sandbox Demo Mode'}</span>
-              <span className={`w-2 h-2 rounded-full ${isFirebaseConfigured ? 'bg-emerald-500' : 'bg-amber-400'} animate-pulse`} />
-            </div>
-
-            {/* User Profile Pill */}
+          {/* Right section: User Profile & Logout */}
+          <div className="flex items-center gap-3">
             {currentUser && (
-              <div className="flex items-center gap-3 pl-2 sm:border-l sm:border-slate-800">
+              <div className="flex items-center gap-3">
                 <div className="flex items-center gap-2.5">
                   <div className="w-9 h-9 rounded-full bg-indigo-600/20 border border-indigo-500/40 text-indigo-300 font-semibold text-sm flex items-center justify-center shadow-inner">
                     {initial}
                   </div>
-                  <div className="hidden lg:block text-left">
+                  <div className="hidden sm:block text-left">
                     <p className="text-xs font-semibold text-slate-200 leading-tight">
-                      {currentUser.displayName || 'Workspace Member'}
+                      {currentUser.displayName || 'User'}
                     </p>
-                    <p className="text-[11px] text-slate-400 leading-tight truncate max-w-[150px]">
+                    <p className="text-[11px] text-slate-400 leading-tight truncate max-w-[180px]">
                       {currentUser.email}
                     </p>
                   </div>
@@ -74,7 +60,7 @@ export default function Navbar() {
                 <button
                   onClick={handleLogout}
                   className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-slate-300 hover:text-white bg-slate-900 hover:bg-slate-800 border border-slate-700/60 transition-all duration-150 active:scale-95 cursor-pointer"
-                  title="Sign out of account"
+                  title="Sign out"
                 >
                   <LogOut className="w-3.5 h-3.5 text-slate-400" />
                   <span className="hidden sm:inline">Logout</span>

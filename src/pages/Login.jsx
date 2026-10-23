@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { useAuth, formatAuthError } from '../context/AuthContext'
 import { useToast } from '../context/ToastContext'
-import { CheckSquare, Lock, Mail, Eye, EyeOff, ArrowRight, Sparkles } from 'lucide-react'
+import { CheckSquare, Lock, Mail, Eye, EyeOff, ArrowRight } from 'lucide-react'
 
 export default function Login() {
   const [email, setEmail] = useState('')
@@ -28,16 +28,11 @@ export default function Login() {
       showToast('Welcome back! Successfully signed in.')
       navigate(redirectPath, { replace: true })
     } catch (err) {
-      setError(formatAuthError(err.code || err.message))
+      console.error('Firebase Auth Login Error:', err)
+      setError(formatAuthError(err))
     } finally {
       setLoading(false)
     }
-  }
-
-  const fillDemoCredentials = () => {
-    setEmail('demo.user@taskflow.dev')
-    setPassword('DemoPass123!')
-    setError('')
   }
 
   return (
@@ -50,13 +45,12 @@ export default function Login() {
           </div>
           <h1 className="text-2xl font-extrabold text-white tracking-tight">Welcome back</h1>
           <p className="text-xs text-slate-400 mt-1.5">
-            Log in to manage your protected tasks and Firestore data
+            Log in to manage your tasks and personal data
           </p>
         </div>
 
         {/* Auth Card */}
         <div className="glass-panel rounded-3xl p-6 sm:p-8 shadow-2xl relative overflow-hidden">
-          {/* Subtle glow accent */}
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-48 h-1 bg-gradient-to-r from-transparent via-indigo-500 to-transparent opacity-80" />
 
           {error && (
@@ -80,7 +74,7 @@ export default function Login() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="name@company.com"
+                  placeholder="name@example.com"
                   className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-900/90 border border-slate-700/80 text-white placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
                 />
               </div>
@@ -124,18 +118,6 @@ export default function Login() {
               <ArrowRight className="w-4 h-4" />
             </button>
           </form>
-
-          {/* Quick Demo Fill Helper */}
-          <div className="mt-5 pt-5 border-t border-slate-800 text-center">
-            <button
-              type="button"
-              onClick={fillDemoCredentials}
-              className="inline-flex items-center gap-1.5 text-xs text-indigo-400 hover:text-indigo-300 font-medium transition cursor-pointer hover:underline"
-            >
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>Fill sample test account</span>
-            </button>
-          </div>
         </div>
 
         {/* Sign up link */}

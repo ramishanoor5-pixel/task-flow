@@ -11,29 +11,10 @@ const firebaseConfig = {
   appId: import.meta.env.VITE_FIREBASE_APP_ID,
 }
 
-// Check if valid Firebase configuration has been provided
-export const isFirebaseConfigured = Boolean(
-  firebaseConfig.apiKey &&
-  !firebaseConfig.apiKey.includes('YourApiKeyHere') &&
-  firebaseConfig.projectId &&
-  !firebaseConfig.projectId.includes('your-app-id')
-)
+// Initialize Firebase App instance
+const app = !getApps().length ? initializeApp(firebaseConfig) : getApp()
 
-// Safe initialization
-let app
-let auth
-let db
-
-try {
-  if (!getApps().length) {
-    app = initializeApp(firebaseConfig)
-  } else {
-    app = getApp()
-  }
-  auth = getAuth(app)
-  db = getFirestore(app)
-} catch (err) {
-  console.warn('Firebase initialization note:', err.message)
-}
-
-export { app, auth, db }
+// Initialize Authentication & Firestore services
+export const auth = getAuth(app)
+export const db = getFirestore(app)
+export default app
